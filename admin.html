@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Administration · Les p’tits champions</title><link rel="stylesheet" href="styles.css"></head>
+<body>
+<header class="site-header"><a class="brand" href="index.html"><strong>Administration</strong></a><a class="btn secondary" href="index.html">Voir le site</a></header>
+<main class="section">
+<div class="section-heading"><span class="eyebrow">ESPACE ADMIN</span><h1>Modifier le contenu</h1><p>Cette première version fournit une interface d’édition locale pour préparer les contenus. Pour que les modifications soient visibles par tous les visiteurs après publication, l’étape suivante consiste à connecter cet éditeur à un stockage en ligne.</p></div>
+<div class="form-card">
+<label>Titre de la page d’accueil<input id="title" value="Les p’tits champions de Terre-Sainte"></label>
+<label>Phrase d’introduction<textarea id="intro" rows="3">Un camp organisé par des jeunes de Terre-Sainte pour les enfants de Terre-Sainte.</textarea></label>
+<label>Dates<textarea id="datesAdmin" rows="4">5–9 juillet 2027
+12–16 juillet 2027
+9–13 août 2027
+15–20 août 2027</textarea></label>
+<label>Tarifs<textarea id="prices" rows="3">350 CHF pour le premier enfant de la fratrie
+300 CHF dès le 2e enfant</textarea></label>
+<button class="btn primary" onclick="save()">Enregistrer sur cet appareil</button>
+<button class="btn secondary" onclick="resetData()">Réinitialiser</button>
+<p id="status"></p>
+</div>
+</main>
+<script>
+const fields=['title','intro','datesAdmin','prices'];
+function load(){fields.forEach(id=>{const v=localStorage.getItem('camp_'+id);if(v!==null)document.getElementById(id).value=v})}
+function save(){fields.forEach(id=>localStorage.setItem('camp_'+id,document.getElementById(id).value));document.getElementById('status').textContent='Modifications enregistrées sur cet appareil.'}
+function resetData(){fields.forEach(id=>localStorage.removeItem('camp_'+id));location.reload()}
+load();
+</script>
+</body></html>
