@@ -1,0 +1,241 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Administration — Les p’tits champions</title>
+<style>
+:root{--p:#25334a;--a:#e7f6ec;--bg:#f5f8f7}
+*{box-sizing:border-box}body{margin:0;font-family:system-ui,sans-serif;background:var(--bg);color:var(--p)}
+header{background:var(--p);color:#fff;padding:15px 5%;display:flex;justify-content:space-between;gap:15px;align-items:center}
+header a{color:#fff}.wrap{max-width:1100px;margin:auto;padding:22px 5% 80px}
+.notice{background:#fff8df;border:1px solid #ecd78b;border-radius:16px;padding:15px;margin-bottom:18px}
+.tabs{display:flex;gap:8px;overflow:auto;margin-bottom:18px;padding-bottom:4px}.tabs button{border:0;background:#fff;padding:10px 14px;border-radius:999px;font-weight:800;white-space:nowrap}.tabs .active{background:var(--p);color:#fff}
+.panel{display:none;background:#fff;border-radius:22px;padding:22px;box-shadow:0 10px 30px #25334a12}.panel.active{display:block}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:15px}.full{grid-column:1/-1}
+label{display:block;font-weight:750;margin-bottom:15px}input,textarea,select{display:block;width:100%;margin-top:7px;padding:11px;border:1px solid #d6dde0;border-radius:11px;font:inherit}textarea{min-height:110px;resize:vertical}
+input[type=color]{height:45px;padding:3px}input[type=file]{padding:9px}
+.item{border:1px solid #dfe6e8;border-radius:16px;padding:15px;margin:12px 0}.head{display:flex;justify-content:space-between;gap:10px;align-items:center}.small{font-size:.9rem;color:#617080}
+.action{border:0;border-radius:10px;padding:9px 12px;font-weight:800;cursor:pointer}.add{background:#e7f6ec}.del{background:#ffe5e5}
+.save,.pub{border:0;border-radius:999px;padding:13px 20px;font-weight:900;color:#fff;cursor:pointer}.save{background:var(--p)}.pub{background:#176b3a}
+.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:20px}.media{max-width:220px;max-height:150px;border-radius:12px;display:block;margin:8px 0}
+.section{border:1px solid #e1e6e8;border-radius:14px;padding:12px;margin:9px 0}.sectionTop{display:flex;align-items:center;gap:8px}.sectionTop strong{flex:1}
+.previewBox{border:1px dashed #c8d0d4;border-radius:15px;padding:15px;margin-top:10px}.thumbs{display:flex;flex-wrap:wrap;gap:10px}.thumb{width:130px}.thumb img{width:130px;height:90px;object-fit:cover;border-radius:10px}
+.check{display:flex;align-items:center;gap:8px;font-weight:700}.check input{width:auto;margin:0}
+.status{font-weight:800;margin-top:14px}
+@media(max-width:720px){.grid{grid-template-columns:1fr}.full{grid-column:auto}.head{align-items:flex-start;flex-direction:column}}
+</style>
+</head>
+<body>
+<header><strong>🏕️ Administration · Les p’tits champions</strong><a href="index.html">← Voir le site</a></header>
+<div class="wrap">
+<div class="notice"><strong>Éditeur complet — Version C</strong><br>
+Cette version permet de créer des rubriques avec du contenu, de gérer librement les tarifs, le local, les infos importantes, les programmes par semaine et le grand logo d’accueil. <strong>Enregistrer</strong> conserve le brouillon sur cet appareil. <strong>Publier</strong> sera activé lorsque la connexion sécurisée au serveur de publication sera installée.</div>
+
+<div class="tabs" id="tabs">
+<button class="active" data-t="accueil">🏠 Accueil</button><button data-t="rubriques">↕️ Rubriques</button><button data-t="apparence">🎨 Apparence</button>
+<button data-t="medias">🖼️ Médias</button><button data-t="camp">🏕️ Camp</button><button data-t="groupes">👧 Groupes</button>
+<button data-t="activites">🎯 Activités</button><button data-t="dates">📅 Dates & tarifs</button><button data-t="programmes">📋 Programmes</button>
+<button data-t="local">📍 Le local</button><button data-t="infos">📌 Infos importantes</button><button data-t="journee">⏰ Journée</button>
+<button data-t="equipe">👩 Équipe</button><button data-t="documents">📄 Documents</button><button data-t="video">🎬 Vidéo 2026</button>
+<button data-t="faq">❓ FAQ</button><button data-t="parametres">⚙️ Paramètres</button>
+</div>
+
+<section class="panel active" id="accueil"><h2>🏠 Accueil</h2><div class="grid">
+<label>Titre<input id="heroTitle"></label><label>Accroche<textarea id="heroLead"></textarea></label>
+<label class="full">Présentation<textarea id="heroIntro"></textarea></label><label>Bouton<input id="registerButton"></label>
+</div><div class="previewBox"><strong>Aperçu du logo d’accueil</strong><div id="heroLogoPreview" style="margin-top:10px;min-height:180px;border-radius:15px;background-position:center;background-size:cover;background-repeat:no-repeat;display:flex;align-items:center;justify-content:center;text-align:center;padding:25px"></div></div></section>
+
+<section class="panel" id="rubriques"><h2>↕️ Rubriques</h2><p class="small">Créez une rubrique, donnez-lui un nom et écrivez librement son contenu. Vous pouvez ensuite la déplacer ou la supprimer.</p><div id="sections"></div><button class="action add" onclick="addSection()">＋ Ajouter une rubrique</button></section>
+
+<section class="panel" id="apparence"><h2>🎨 Logo & style</h2><div class="grid">
+<label>Nom du logo<input id="logoText"></label><label>Couleur principale<input id="primaryColor" type="color"></label>
+<label>Couleur secondaire<input id="secondaryColor" type="color"></label><label>Fond<input id="backgroundColor" type="color"></label>
+<label>Police<select id="fontFamily"><option>system-ui</option><option>Georgia</option><option>Trebuchet MS</option><option>Arial</option></select></label>
+<label>Opacité du voile derrière le texte<input id="heroOverlay" type="range" min="0" max="0.9" step="0.05"></label>
+</div>
+<label>Logo — choisir un fichier<input id="logoFile" type="file" accept="image/*"></label><img id="logoPreview" class="media">
+<label>Pied de page<input id="footerText"></label>
+<p class="small">Le logo sélectionné sera utilisé comme grande image d’arrière-plan de l’accueil, avec un voile réglable pour conserver un texte lisible.</p></section>
+
+<section class="panel" id="medias"><h2>🖼️ Photos</h2><p class="small">Ajoutez des photos générales au site. Les photos de l’équipe et des programmes sont gérées dans leurs rubriques respectives.</p><div id="photos"></div><button class="action add" onclick="addPhoto()">＋ Ajouter une photo</button></section>
+
+<section class="panel" id="camp"><h2>🏕️ Présentation du camp</h2><label>Titre<input id="campTitle"></label><label>Présentation<textarea id="campDescription"></textarea></label><div id="cards"></div><button class="action add" onclick="addCard()">＋ Ajouter un élément</button></section>
+
+<section class="panel" id="groupes"><h2>👧 Groupes</h2><div class="grid">
+<label>Mini champions<input id="miniTitle"></label><label>Âge<input id="miniAge"></label><label class="full">Description<textarea id="miniText"></textarea></label>
+<label>Grands champions<input id="bigTitle"></label><label>Âge<input id="bigAge"></label><label class="full">Description<textarea id="bigText"></textarea></label>
+</div></section>
+
+<section class="panel" id="activites"><h2>🎯 Activités</h2><div id="activities"></div><button class="action add" onclick="addActivity()">＋ Ajouter une activité</button></section>
+
+<section class="panel" id="dates"><h2>📅 Dates & tarifs</h2><label>Date limite<input id="deadline"></label><div id="weeks"></div><button class="action add" onclick="addWeek()">＋ Ajouter une semaine</button>
+<h3>Tarifs</h3><p class="small">Ajoutez, modifiez ou supprimez autant de tarifs que nécessaire. Il n’y a plus de tarif imposé pour la journée ou la demi-journée.</p>
+<div id="prices"></div><button class="action add" onclick="addPrice()">＋ Ajouter un tarif</button>
+<label>Paiement<textarea id="payment"></textarea></label></section>
+
+<section class="panel" id="programmes"><h2>📋 Programmes</h2><p class="small">Ajoutez les programmes semaine par semaine. Tant qu’aucun programme n’est fourni, le message ci-dessous apparaîtra sur le site.</p>
+<div id="programs"></div><button class="action add" onclick="addProgram()">＋ Ajouter une semaine de programme</button>
+<div class="previewBox"><strong>Message quand aucun programme n’est disponible :</strong><br>Les programmes des camps seront mis en ligne prochainement.</div></section>
+
+<section class="panel" id="local"><h2>📍 Le local</h2><label>Adresse<input id="localAddress"></label><label>Présentation<textarea id="localText"></textarea></label><div id="localPhotos"></div><button class="action add" onclick="addLocalPhoto()">＋ Ajouter une photo du local</button></section>
+
+<section class="panel" id="infos"><h2>📌 Infos importantes</h2><p class="small">Écrivez ici toutes les informations pratiques destinées aux parents.</p><label>Contenu<textarea id="importantInfo" placeholder="Ex. Prévoir un pique-nique, une gourde, de la crème solaire, un sac..."></textarea></label></section>
+
+<section class="panel" id="journee"><h2>⏰ Journée type</h2><div id="schedule"></div><button class="action add" onclick="addSchedule()">＋ Ajouter un moment</button></section>
+
+<section class="panel" id="equipe"><h2>👩 Équipe</h2><h3>Fondatrices</h3><div id="founders"></div><button class="action add" onclick="addPerson('founders')">＋ Ajouter une fondatrice</button>
+<h3>Moniteurs</h3><div id="monitors"></div><button class="action add" onclick="addPerson('monitors')">＋ Ajouter un moniteur</button></section>
+
+<section class="panel" id="documents"><h2>📄 Documents</h2><div id="docs"></div><button class="action add" onclick="addDoc()">＋ Ajouter un document</button></section>
+
+<section class="panel" id="video"><h2>🎬 Vidéo du camp 2026</h2><label>Titre<input id="videoTitle"></label><label>Présentation<textarea id="videoText"></textarea></label>
+<label>Choisir la vidéo<input id="videoFile" type="file" accept="video/*"></label><video id="videoPreview" controls style="max-width:100%;display:none"></video>
+<p class="small">La vidéo sera publiée après raccordement à un hébergement adapté.</p></section>
+
+<section class="panel" id="faq"><h2>❓ FAQ</h2><div id="faqList"></div><button class="action add" onclick="addFaq()">＋ Ajouter une question</button></section>
+
+<section class="panel" id="parametres"><h2>⚙️ Paramètres</h2><div class="grid">
+<label>Nom du camp<input id="campName"></label><label>Lieu<input id="location"></label>
+<label class="full">E-mail de réception des inscriptions<input id="contactEmail" type="email"></label>
+<label class="full">Informations supplémentaires<textarea id="extraInfo"></textarea></label>
+</div><div class="previewBox"><strong>📧 Inscriptions</strong><p>Cette adresse sera utilisée comme adresse de réception lorsque le formulaire d’inscription sera raccordé au service d’envoi sécurisé.</p></div></section>
+
+<div class="actions"><button class="save" onclick="save()">💾 Enregistrer</button><button class="pub" onclick="publish()">🚀 Publier</button><button class="action" onclick="resetAll()">↩ Réinitialiser</button></div><p class="status" id="status"></p>
+</div>
+
+<script>
+const K="ptits_champions_editor_v3";
+const oldKey="ptits_champions_editor_v2";
+const defaults={
+heroTitle:"Les p’tits champions|de Terre-Sainte",heroLead:"Camp fun et aventure à Founex pour les enfants de 5 à 10 ans.",
+heroIntro:"Un camp organisé par des jeunes de Terre-Sainte pour les enfants de Terre-Sainte.",registerButton:"Inscrire mon enfant",
+logoText:"Les p’tits champions de Terre-Sainte",primaryColor:"#25334a",secondaryColor:"#e7f6ec",backgroundColor:"#f5f8f7",
+fontFamily:"system-ui",heroOverlay:.35,footerText:"Les p’tits champions de Terre-Sainte",logo:"",
+campTitle:"Une semaine pleine d’aventures",campDescription:"Un camp fun et aventure pensé pour les enfants de Terre-Sainte.",
+miniTitle:"Mini champions",miniAge:"5–7 ans",miniText:"Un programme adapté aux plus jeunes.",
+bigTitle:"Grands champions",bigAge:"8–10 ans",bigText:"Des défis et activités pour les plus grands.",
+deadline:"15 juin 2027",payment:"Twint ou virement jusqu’à 48 h avant le camp.",
+campName:"Les p’tits champions de Terre-Sainte",location:"Founex",contactEmail:"",extraInfo:"",
+importantInfo:"",
+localAddress:"",localText:"",
+sections:[
+{name:"Accueil",content:"",enabled:true},{name:"Le camp",content:"",enabled:true},{name:"Les groupes",content:"",enabled:true},
+{name:"Activités",content:"",enabled:true},{name:"Dates & tarifs",content:"",enabled:true},{name:"Programmes",content:"",enabled:true},
+{name:"Le local",content:"",enabled:true},{name:"Infos importantes",content:"",enabled:true},{name:"Notre équipe",content:"",enabled:true},
+{name:"Documents",content:"",enabled:true},{name:"Souvenirs 2026",content:"",enabled:true},{name:"FAQ",content:"",enabled:true}
+],
+photos:[],cards:[["🤝","Entre copains","Créer des souvenirs ensemble."],["🎨","Créatif & curieux","Ateliers et projets adaptés."],["🏃","Actif & aventurier","Jeux et activités de plein air."]],
+activities:[["🗺️","Chasses au trésor","Défis & énigmes"],["💦","Jeux d’eau","Pour se rafraîchir"],["🎨","Ateliers créatifs","Créer & imaginer"],["🍪","Ateliers cuisine","Selon l’âge"],["🎬","Création vidéo","8–10 ans"],["⚽","Multisport","Découvrir plusieurs sports"]],
+weeks:["5–9 juillet 2027","12–16 juillet 2027","9–13 août 2027","15–20 août 2027"],
+prices:[
+{label:"Semaine — premier enfant",amount:"CHF 350.–"},
+{label:"Semaine — dès le 2e enfant",amount:"CHF 300.–"}
+],
+programs:[],
+schedule:[["08:45–09:00","Accueil au terrain de jeux du centre de Founex"],["Matin","Activité principale"],["Midi","Repas et temps calme"],["Après-midi","Activités et jeux"],["16:30–16:45","Départ"]],
+founders:[],monitors:[],docs:[["Autorisation de participation",""],["Fiche sanitaire",""],["Conditions générales",""],["Autorisation photo/vidéo",""]],
+faq:[["À qui s’adresse le camp ?","Aux enfants de 5 à 10 ans."],["Où se déroule l’accueil ?","Au terrain de jeux du centre de Founex."]],
+localPhotos:[]
+};
+
+let d=load();
+function load(){
+  let raw=localStorage.getItem(K);
+  if(raw)return JSON.parse(raw);
+  let old=localStorage.getItem(oldKey);
+  if(old){
+    let x=JSON.parse(old);
+    let n=JSON.parse(JSON.stringify(defaults));
+    Object.keys(x).forEach(k=>{n[k]=x[k]});
+    if(Array.isArray(n.sections)){
+      n.sections=n.sections.map(s=>Array.isArray(s)?{name:s[0],content:"",enabled:s[1]!==false}:s);
+    }
+    if(!n.prices){n.prices=[{label:"Semaine — premier enfant",amount:x.price1||"CHF 350.–"},{label:"Semaine — dès le 2e enfant",amount:x.price2||"CHF 300.–"}]}
+    return n;
+  }
+  return JSON.parse(JSON.stringify(defaults));
+}
+const $=id=>document.getElementById(id);
+const esc=v=>String(v??"").replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;").replaceAll('"',"&quot;");
+const fileToDataURL=file=>new Promise((resolve,reject)=>{const r=new FileReader();r.onload=()=>resolve(r.result);r.onerror=reject;r.readAsDataURL(file)});
+const fields=["heroTitle","heroLead","heroIntro","registerButton","logoText","primaryColor","secondaryColor","backgroundColor","fontFamily","heroOverlay","footerText","campTitle","campDescription","miniTitle","miniAge","miniText","bigTitle","bigAge","bigText","deadline","payment","campName","location","contactEmail","extraInfo","localAddress","localText","importantInfo","videoTitle","videoText"];
+
+function fill(){
+  fields.forEach(k=>{if($(k))$(k).value=d[k]??""});
+  if(d.logo)$("logoPreview").src=d.logo;
+  updateHeroPreview(); renderAll();
+}
+function bindFields(){
+  fields.forEach(k=>{let el=$(k);if(el)el.addEventListener("input",()=>{d[k]=el.value;updateHeroPreview()})});
+  $("logoFile").addEventListener("change",async e=>{let f=e.target.files[0];if(!f)return;d.logo=await fileToDataURL(f);$("logoPreview").src=d.logo;updateHeroPreview()});
+  $("videoFile").addEventListener("change",async e=>{let f=e.target.files[0];if(!f)return;d.video=await fileToDataURL(f);$("videoPreview").src=d.video;$("videoPreview").style.display="block"});
+}
+function updateHeroPreview(){
+  let b=$("heroLogoPreview");b.style.backgroundImage=d.logo?`url("${d.logo}")`:"none";b.style.backgroundColor=d.backgroundColor||"#eee";
+  b.innerHTML=`<div style="background:rgba(0,0,0,${Number(d.heroOverlay)||0});color:white;border-radius:12px;padding:18px"><strong style="font-size:1.5rem">${esc((d.heroTitle||"").replace("|"," "))}</strong><div>${esc(d.heroLead||"")}</div></div>`;
+}
+function renderAll(){renderSections();renderPhotos();renderCards();renderActivities();renderWeeks();renderPrices();renderPrograms();renderLocalPhotos();renderSchedule();renderPeople();renderDocs();renderFaq()}
+function renderSections(){
+ $("sections").innerHTML=d.sections.map((s,i)=>`<div class="section">
+ <div class="sectionTop"><strong>${esc(s.name)}</strong>
+ <button class="action" onclick="moveSection(${i},-1)">↑</button><button class="action" onclick="moveSection(${i},1)">↓</button>
+ <button class="action" onclick="editSection(${i})">✏️</button><button class="action del" onclick="removeSection(${i})">🗑️</button></div>
+ <label>Contenu<textarea oninput="d.sections[${i}].content=this.value">${esc(s.content||"")}</textarea></label>
+ </div>`).join("");
+}
+function addSection(){d.sections.push({name:"Nouvelle rubrique",content:"",enabled:true});renderSections()}
+function editSection(i){let n=prompt("Nom de la rubrique :",d.sections[i].name);if(n!==null&&n.trim()){d.sections[i].name=n.trim();renderSections()}}
+function removeSection(i){if(confirm("Supprimer cette rubrique ?")){d.sections.splice(i,1);renderSections()}}
+function moveSection(i,n){let j=i+n;if(j<0||j>=d.sections.length)return;[d.sections[i],d.sections[j]]=[d.sections[j],d.sections[i]];renderSections()}
+
+function renderPhotos(){ $("photos").innerHTML=d.photos.map((p,i)=>`<div class="item"><label>Légende<input value="${esc(p.caption||"")}" oninput="d.photos[${i}].caption=this.value"></label>${p.src?`<img class="media" src="${p.src}">`:""}<input type="file" accept="image/*" onchange="setPhoto(${i},this)"><button class="action del" onclick="d.photos.splice(${i},1);renderPhotos()">Supprimer</button></div>`).join("")}
+function addPhoto(){d.photos.push({caption:"",src:""});renderPhotos()}
+async function setPhoto(i,input){if(input.files[0])d.photos[i].src=await fileToDataURL(input.files[0]);renderPhotos()}
+
+function list3(id,a,labels,removeFn){$(id).innerHTML=a.map((x,i)=>`<div class="item"><div class="head"><b>Élément ${i+1}</b><button class="action del" onclick="${removeFn}(${i})">Supprimer</button></div>${labels.map((l,j)=>`<label>${l}<input value="${esc(x[j]||"")}" oninput="d.${id}[${i}][${j}]=this.value"></label>`).join("")}</div>`).join("")}
+function renderCards(){list3("cards",d.cards,["Icône","Titre","Texte"],"removeCard")}
+function addCard(){d.cards.push(["✨","Nouveau titre",""]);renderCards()} function removeCard(i){d.cards.splice(i,1);renderCards()}
+function renderActivities(){list3("activities",d.activities,["Icône","Nom","Description"],"removeActivity")}
+function addActivity(){d.activities.push(["✨","Nouvelle activité",""]);renderActivities()} function removeActivity(i){d.activities.splice(i,1);renderActivities()}
+function renderWeeks(){$("weeks").innerHTML=d.weeks.map((x,i)=>`<div class="item"><label>Semaine ${i+1}<input value="${esc(x)}" oninput="d.weeks[${i}]=this.value"></label><button class="action del" onclick="d.weeks.splice(${i},1);renderWeeks()">Supprimer</button></div>`).join("")}
+function addWeek(){d.weeks.push("Nouvelle semaine");renderWeeks()}
+function renderPrices(){$("prices").innerHTML=d.prices.map((p,i)=>`<div class="item"><div class="grid"><label>Intitulé<input value="${esc(p.label)}" oninput="d.prices[${i}].label=this.value"></label><label>Montant<input value="${esc(p.amount)}" oninput="d.prices[${i}].amount=this.value"></label></div><button class="action del" onclick="d.prices.splice(${i},1);renderPrices()">Supprimer</button></div>`).join("")}
+function addPrice(){d.prices.push({label:"Nouveau tarif",amount:"CHF "});renderPrices()}
+
+function renderPrograms(){$("programs").innerHTML=d.programs.map((p,i)=>`<div class="item"><div class="grid"><label>Semaine<input value="${esc(p.week||"")}" oninput="d.programs[${i}].week=this.value"></label><label>Description<input value="${esc(p.text||"")}" oninput="d.programs[${i}].text=this.value"></label></div>${p.src?`<img class="media" src="${p.src}">`:""}<input type="file" accept="image/*" onchange="setProgram(${i},this)"><button class="action del" onclick="d.programs.splice(${i},1);renderPrograms()">Supprimer</button></div>`).join("")}
+function addProgram(){d.programs.push({week:"Nouvelle semaine",text:"",src:""});renderPrograms()}
+async function setProgram(i,input){if(input.files[0])d.programs[i].src=await fileToDataURL(input.files[0]);renderPrograms()}
+
+function renderLocalPhotos(){$("localPhotos").innerHTML=d.localPhotos.map((p,i)=>`<div class="item">${p.src?`<img class="media" src="${p.src}">`:""}<label>Légende<input value="${esc(p.caption||"")}" oninput="d.localPhotos[${i}].caption=this.value"></label><input type="file" accept="image/*" onchange="setLocalPhoto(${i},this)"><button class="action del" onclick="d.localPhotos.splice(${i},1);renderLocalPhotos()">Supprimer</button></div>`).join("")}
+function addLocalPhoto(){d.localPhotos.push({caption:"",src:""});renderLocalPhotos()}
+async function setLocalPhoto(i,input){if(input.files[0])d.localPhotos[i].src=await fileToDataURL(input.files[0]);renderLocalPhotos()}
+
+function renderSchedule(){list3("schedule",d.schedule,["Horaire","Description"],"removeSchedule")}
+function addSchedule(){d.schedule.push(["",""]);renderSchedule()} function removeSchedule(i){d.schedule.splice(i,1);renderSchedule()}
+function renderPeople(){renderPeopleList("founders");renderPeopleList("monitors")}
+function renderPeopleList(id){$(id).innerHTML=d[id].map((p,i)=>`<div class="item"><div class="grid"><label>Nom<input value="${esc(p.name||"")}" oninput="d.${id}[${i}].name=this.value"></label><label>Rôle<input value="${esc(p.role||"")}" oninput="d.${id}[${i}].role=this.value"></label></div><label>Présentation<textarea oninput="d.${id}[${i}].text=this.value">${esc(p.text||"")}</textarea></label>${p.photo?`<img class="media" src="${p.photo}">`:""}<input type="file" accept="image/*" onchange="setPersonPhoto('${id}',${i},this)"><button class="action del" onclick="d.${id}.splice(${i},1);renderPeople()">Supprimer</button></div>`).join("")}
+function addPerson(id){d[id].push({name:"",role:"",text:"",photo:""});renderPeople()}
+async function setPersonPhoto(id,i,input){if(input.files[0])d[id][i].photo=await fileToDataURL(input.files[0]);renderPeople()}
+
+function renderDocs(){$("docs").innerHTML=d.docs.map((x,i)=>`<div class="item"><label>Nom du document<input value="${esc(x[0])}" oninput="d.docs[${i}][0]=this.value"></label>${x[1]?`<p class="small">Fichier sélectionné.</p>`:""}<input type="file" accept=".pdf,.doc,.docx,.jpg,.jpeg,.png" onchange="setDoc(${i},this)"><button class="action del" onclick="d.docs.splice(${i},1);renderDocs()">Supprimer</button></div>`).join("")}
+function addDoc(){d.docs.push(["Nouveau document",""]);renderDocs()}
+async function setDoc(i,input){if(input.files[0])d.docs[i][1]=await fileToDataURL(input.files[0]);renderDocs()}
+
+function renderFaq(){list3("faqList",d.faq,["Question","Réponse"],"removeFaq")}
+function addFaq(){d.faq.push(["Nouvelle question",""]);renderFaq()} function removeFaq(i){d.faq.splice(i,1);renderFaq()}
+
+function save(){
+  localStorage.setItem(K,JSON.stringify(d));
+  $("status").textContent="✅ Brouillon enregistré sur cet appareil.";
+}
+function publish(){
+  $("status").textContent="🔐 La publication sécurisée n’est pas encore connectée. N’entrez aucun token GitHub dans cette page.";
+  alert("La partie éditeur est prête. Pour publier réellement vers GitHub, il faut encore installer la connexion sécurisée (serveur/OAuth). Ne mettez pas de token GitHub ici.");
+}
+function resetAll(){if(confirm("Réinitialiser le brouillon de cet appareil ?")){localStorage.removeItem(K);d=JSON.parse(JSON.stringify(defaults));fill();$("status").textContent="Brouillon réinitialisé."}}
+document.querySelectorAll("#tabs button").forEach(b=>b.addEventListener("click",()=>{document.querySelectorAll(".tabs button").forEach(x=>x.classList.remove("active"));document.querySelectorAll(".panel").forEach(x=>x.classList.remove("active"));b.classList.add("active");$(b.dataset.t).classList.add("active")}));
+bindFields();fill();
+</script>
+</body>
+</html>
