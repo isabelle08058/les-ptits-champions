@@ -228,10 +228,66 @@ function addFaq(){d.faq.push(["Nouvelle question",""]);renderFaq()} function rem
 function save(){
   localStorage.setItem(K,JSON.stringify(d));
   $("status").textContent="✅ Brouillon enregistré sur cet appareil.";
+  async function publish(){
+  const password = prompt("🔐 Entrez le mot de passe de publication :");
+
+  if (password === null) {
+    return;
+  }
+
+  if (!password) {
+    $("status").textContent = "❌ Aucun mot de passe fourni.";
+    return;
+  }
+
+  save();
+
+  $("status").textContent = "⏳ Publication en cours…";
+
+  try {
+    const response = await fetch(
+      "https://ptits-champions-publisher.isabelle-aeby05.workers.dev",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          password: password,
+          data: d
+        })
+      }
+    );
+
+    const result = await response.json();
+
+    if (!response.ok || !result.ok) {
+      throw new Error(result.error || "La publication a échoué.");
+    }
+
+    $("status").textContent =
+      "✅ Publication réussie ! Le site va être mis à jour dans quelques instants.";
+
+    alert(
+      "✅ Publication réussie !\n\n" +
+      "Les modifications ont été envoyées à GitHub.\n" +
+      "Le site public peut prendre quelques minutes à se mettre à jour."
+    );
+
+  } catch (error) {
+    console.error(error);
+
+    $("status").textContent =
+      "❌ Erreur : " + error.message;
+
+    alert(
+      "❌ La publication n'a pas fonctionné.\n\n" +
+      error.message
+    );
+  }
 }
-function publish(){
-  $("status").textContent="🔐 La publication sécurisée n’est pas encore connectée. N’entrez aucun token GitHub dans cette page.";
-  alert("La partie éditeur est prête. Pour publier réellement vers GitHub, il faut encore installer la connexion sécurisée (serveur/OAuth). Ne mettez pas de token GitHub ici.");
+}
+
 }
 function resetAll(){if(confirm("Réinitialiser le brouillon de cet appareil ?")){localStorage.removeItem(K);d=JSON.parse(JSON.stringify(defaults));fill();$("status").textContent="Brouillon réinitialisé."}}
 document.querySelectorAll("#tabs button").forEach(b=>b.addEventListener("click",()=>{document.querySelectorAll(".tabs button").forEach(x=>x.classList.remove("active"));document.querySelectorAll(".panel").forEach(x=>x.classList.remove("active"));b.classList.add("active");$(b.dataset.t).classList.add("active")}));
