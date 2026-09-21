@@ -12,13 +12,13 @@
   "footerText": "Les p’tits champions de Terre-Sainte",
   "logo": "",
   "campTitle": "Une semaine pleine d’aventures",
-  "campDescription": "Un camp fun et aventure pensé pour les enfants de Terre-Sainte.\n\nQuelques mots qui nous définissent :",
+  "campDescription": "Un camp fun et aventure pensé pour les enfants de Terre-Sainte.\n",
   "miniTitle": "Mini champions",
   "miniAge": "5–7 ans",
-  "miniText": "Un programme adapté aux plus jeunes.",
+  "miniText": "Les 5-7 ans avancent, jouent et découvrent à leur rythme grâce à nos activités et ateliers pensés pour les plus petits.",
   "bigTitle": "Grands champions",
   "bigAge": "8–10 ans",
-  "bigText": "Des défis et activités pour les plus grands.",
+  "bigText": "Des défis sportifs, des jeux plus complexes et des projets artistiques amusants sont au programme pour les 8-10 ans !",
   "deadline": "15 juin 2027",
   "payment": "Twint ou virement jusqu’à 48 h avant le camp.",
   "campName": "Les p’tits champions de Terre-Sainte",
@@ -160,23 +160,27 @@
   "schedule": [
     [
       "08:45–09:00",
-      "Accueil au terrain de jeux du centre de Founex"
+      "Accueil des enfants à la place de jeux du centre de Founex"
     ],
     [
-      "Matin",
-      "Activité principale"
+      "9:00 - 12:00",
+      "Activités et jeux regroupant les Mini et Grands champions"
     ],
     [
-      "Midi",
-      "Repas et temps calme"
+      "12:00 - 13:30 ",
+      "Repas et temps calme au local "
     ],
     [
-      "Après-midi",
-      "Activités et jeux"
+      "13:30 - 16:00",
+      "Atelier créatif et/ou sportif pour les Mini champions ; défi sportif et/ou projet artistique pour les Grands champions"
     ],
     [
-      "16:30–16:45",
-      "Départ"
+      "16:00 - 16:30",
+      "Retour au local et goûter "
+    ],
+    [
+      "16:30 - 16 :45",
+      "Départ des enfants depuis la place de jeux du centre de Founex"
     ]
   ],
   "founders": [],
