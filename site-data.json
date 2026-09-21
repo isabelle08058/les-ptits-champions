@@ -50,12 +50,17 @@
       "enabled": true
     },
     {
-      "name": "Dates & tarifs",
-      "content": "",
+      "name": "La sécurité, au coeur de l’encadrement",
+      "content": "Afin de garantir la sécurité et l’épanouissement des enfants, nous accueillons au maximum 8 participants par jour. 2 moniteurs au minimum, dont au moins un majeur, encadreront les enfants. Lors des activités séparées entre Mini et Grands Champions, il y aura un moniteur au minimum pour 4 enfants, et 2 s’il y en a plus. Dans le cadre de ces activités séparées, celles nécessitant un déplacement important ou un effort sportif plus intensif, 2 moniteurs au minimum, dont un majeur, seront présents.",
       "enabled": true
     },
     {
       "name": "Notre équipe",
+      "content": "",
+      "enabled": true
+    },
+    {
+      "name": "Dates & tarifs",
       "content": "",
       "enabled": true
     },
@@ -72,16 +77,6 @@
     {
       "name": "FAQ",
       "content": "",
-      "enabled": true
-    },
-    {
-      "name": "Dates et tarifs 2",
-      "content": "",
-      "enabled": true
-    },
-    {
-      "name": "Test",
-      "content": "Apporter un pique-nique",
       "enabled": true
     }
   ],
