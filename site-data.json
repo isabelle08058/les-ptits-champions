@@ -1,6 +1,6 @@
 {
   "heroTitle": "Les p’tits champions|de Terre-Sainte",
-  "heroLead": "Camp fun et aventure à Founex pour les enfants de 2 à 12 ans 🎉❤️!",
+  "heroLead": "Camp fun et aventure à Founex pour les enfants de 5 à 10 ans",
   "heroIntro": "Un camp organisé par des jeunes de Terre-Sainte pour les enfants de Terre-Sainte.",
   "registerButton": "Inscrire mon enfant",
   "logoText": "Les p’tits champions de Terre-Sainte",
@@ -12,7 +12,7 @@
   "footerText": "Les p’tits champions de Terre-Sainte",
   "logo": "",
   "campTitle": "Une semaine pleine d’aventures",
-  "campDescription": "Un camp fun et aventure pensé pour les enfants de Terre-Sainte.",
+  "campDescription": "Un camp fun et aventure pensé pour les enfants de Terre-Sainte.\n\nQuelques mots qui nous définissent :",
   "miniTitle": "Mini champions",
   "miniAge": "5–7 ans",
   "miniText": "Un programme adapté aux plus jeunes.",
@@ -93,19 +93,19 @@
   ],
   "cards": [
     [
-      "🤝",
+      "👫",
       "Entre copains",
-      "Créer des souvenirs ensemble."
+      "Un camp pour s’amuser et créer des souvenirs ensemble."
+    ],
+    [
+      "⛹️‍♂️",
+      "Actif & aventurier",
+      "Jeux, sports & activités en plein air pour tous les âges et les goûts !"
     ],
     [
       "🎨",
       "Créatif & curieux",
-      "Ateliers et projets adaptés."
-    ],
-    [
-      "🏃",
-      "Actif & aventurier",
-      "Jeux et activités de plein air."
+      "Ateliers & projets artistiques pour que votre enfant puisse créer sans limite !"
     ]
   ],
   "activities": [
