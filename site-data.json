@@ -183,7 +183,14 @@
       "Départ des enfants depuis la place de jeux du centre de Founex"
     ]
   ],
-  "founders": [],
+  "founders": [
+    {
+      "name": "Isabelle Aeby",
+      "role": "Fondatrice, directrice et monitrice en chef du camp",
+      "text": "J’adore les enfants.",
+      "photo": ""
+    }
+  ],
   "monitors": [],
   "docs": [
     [
