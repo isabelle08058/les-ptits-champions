@@ -5,10 +5,10 @@
   "registerButton": "Inscrire mon enfant",
   "logoText": "Les p’tits champions de Terre-Sainte",
   "primaryColor": "#25334a",
-  "secondaryColor": "#e7f6ec",
-  "backgroundColor": "#f5f8f7",
+  "secondaryColor": "#8cd8ff",
+  "backgroundColor": "#ceffe2",
   "fontFamily": "Trebuchet MS",
-  "heroOverlay": 0.35,
+  "heroOverlay": "0.4",
   "footerText": "Les p’tits champions de Terre-Sainte",
   "logo": "",
   "campTitle": "Une semaine pleine d’aventures",
@@ -100,44 +100,39 @@
     [
       "⛹️‍♂️",
       "Actif & aventurier",
-      "Jeux, sports & activités en plein air pour tous les âges et les goûts !"
+      "Jeux, sports & activités en plein air pour tous les âges et goûts !"
     ],
     [
       "🎨",
       "Créatif & curieux",
-      "Ateliers & projets artistiques pour que votre enfant puisse créer sans limite !"
+      "Ateliers & projets artistiques : avec nous, votre enfant crée sans limite !"
     ]
   ],
   "activities": [
     [
       "🗺️",
-      "Chasses au trésor",
-      "Défis & énigmes"
+      "Chasse au trésor",
+      "Défis & énigmes en équipes, avec de superbes prix à la clé !"
     ],
     [
-      "💦",
-      "Jeux d’eau",
-      "Pour se rafraîchir"
+      "🏸",
+      "Multisport",
+      "Découvrir le badminton, le football, la danse, le basketball et bien d’autres sports !"
     ],
     [
       "🎨",
-      "Ateliers créatifs",
+      "Ateliers créatifs (peinture & dessin, perles à repasser, masques à décorer, …)",
       "Créer & imaginer"
     ],
     [
-      "🍪",
-      "Ateliers cuisine",
-      "Selon l’âge"
+      "🌿",
+      "Mini champions (5-7 ans) : Atelier Land Art",
+      "Créer de magnifiques mandalas plein de couleurs, avec des branches, des feuilles et des fleurs !"
     ],
     [
       "🎬",
-      "Création vidéo",
-      "8–10 ans"
-    ],
-    [
-      "⚽",
-      "Multisport",
-      "Découvrir plusieurs sports"
+      "Grands champions (8-10 ans) : Création d’un court-métrage",
+      "De l’invention du scénario à l’incarnation d’un personnage : découvrir le monde du cinéma !"
     ]
   ],
   "weeks": [
