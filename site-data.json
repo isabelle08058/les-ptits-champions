@@ -11,7 +11,7 @@
   "heroOverlay": "0.4",
   "footerText": "Les p’tits champions de Terre-Sainte",
   "logo": "",
-  "campTitle": "Une semaine pleine d’aventures",
+  "campTitle": "Une semaine pleine d’aventures… à deux pas de chez vous !",
   "campDescription": "Un camp fun et aventure pensé pour les enfants de Terre-Sainte.\n",
   "miniTitle": "Mini champions",
   "miniAge": "5–7 ans",
@@ -26,8 +26,8 @@
   "contactEmail": "lesptitschampions@gmail.com",
   "extraInfo": "",
   "importantInfo": "La sécurité est au coeur de l'encadrement. Afin de garantir la sécurité et l’épanouissement des enfants, nous accueillons au maximum 8 participants par jour. 2 moniteurs au minimum, dont au moins un majeur, encadreront les enfants. Lors des activités séparées entre Mini et Grands Champions, il y aura un moniteur au minimum pour 4 enfants, et 2 pour 5 ou 6 enfants. Dans le cadre de ces activités séparées, celles nécessitant un déplacement important ou un effort sportif plus intensif, 2 moniteurs au minimum, dont un majeur, seront présents.",
-  "localAddress": "",
-  "localText": "",
+  "localAddress": "Devant l’auberge de Founex",
+  "localText": "Spacieux et accueillant.",
   "sections": [
     {
       "name": "Accueil",
@@ -133,34 +133,34 @@
   ],
   "prices": [
     {
-      "label": "Semaine — 1er enfant",
-      "amount": "CHF 350.–"
+      "label": "Semaine : 1er enfant",
+      "amount": "CHF 350.-"
     },
     {
-      "label": "Semaine — dès le 2e enfant de la fratrie",
-      "amount": "CHF 300.–"
+      "label": "Semaine : dès le 2e enfant de la fratrie",
+      "amount": "CHF 300.-"
     },
     {
-      "label": "Journée — 1er enfant",
-      "amount": "CHF 65.—"
+      "label": "Journée  : 1er enfant",
+      "amount": "CHF 65.-"
     },
     {
-      "label": "Journée — dès le 2e enfant de la fratrie",
-      "amount": "CHF 55.—"
+      "label": "Journée : dès le 2e enfant de la fratrie",
+      "amount": "CHF 55.-"
     },
     {
-      "label": "Demi-journée — 1er enfant ",
-      "amount": "CHF 40.—"
+      "label": "Demi-journée : 1er enfant ",
+      "amount": "CHF 40.-"
     },
     {
-      "label": "Demi-journée — dès le 2e enfant de la fratrie ",
-      "amount": "CHF 30.—"
+      "label": "Demi-journée : dès le 2e enfant de la fratrie ",
+      "amount": "CHF 30.-"
     }
   ],
   "programs": [],
   "schedule": [
     [
-      "08:45–09:00",
+      "08:45 - 09:00",
       "Accueil des enfants à la place de jeux du centre de Founex"
     ],
     [
