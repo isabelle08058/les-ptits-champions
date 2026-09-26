@@ -312,26 +312,305 @@ function makeExtraContainer() {
   return container;
 }
 
-
 function renderExtraSections(d) {
   const container = makeExtraContainer();
 
-  let html = "";
+  /*
+    Correspondance entre les rubriques de l'administration
+    et les sections déjà présentes dans index.html.
+  */
+  const builtIn = {
+    "Accueil": "#accueil",
+    "Le camp": "#camp",
+    "Les groupes": "#groupes",
+    "Activités": "#activites",
+    "Dates & tarifs": "#dates",
+    "FAQ": "#faq",
+    "Inscription": "#inscription"
+  };
 
-  if (d.importantInfo) {
-    html += `
-      <section class="section">
-        <div class="section-heading">
-          <span class="eyebrow">INFORMATIONS IMPORTANTES</span>
-          <h2>À savoir avant le camp</h2>
-        </div>
-        <div class="previewBox">
-          ${String(d.importantInfo).replaceAll("\n", "<br>")}
-        </div>
-      </section>
-    `;
+  /*
+    Applique le titre et la phrase d'accroche
+    d'une rubrique existante.
+  */
+  function applySectionText(section, config) {
+    if (!section || !config) return;
+
+    const heading = section.querySelector(".section-heading");
+    if (!heading) return;
+
+    const title = heading.querySelector("h2");
+    const lead = heading.querySelector("p");
+
+    if (config.title && title) {
+      title.textContent = config.title;
+    }
+
+    if (config.lead) {
+      if (lead) {
+        lead.textContent = config.lead;
+      } else {
+        const p = document.createElement("p");
+        p.textContent = config.lead;
+        heading.appendChild(p);
+      }
+    }
   }
 
+  /*
+    1. Rubriques existantes :
+       on applique les titres/accroches définis
+       dans l'administration.
+  */
+  if (Array.isArray(d.sections)) {
+    d.sections.forEach(config => {
+      if (!config || config.enabled === false) return;
+
+      const selector = builtIn[String(config.name || "").trim()];
+
+      if (selector) {
+        const section = document.querySelector(selector);
+        applySectionText(section, config);
+      }
+    });
+  }
+
+  /*
+    2. Rubriques personnalisées :
+       elles sont créées automatiquement sur le site.
+  */
+  let customHtml = "";
+
+  if (Array.isArray(d.sections)) {
+    d.sections
+      .filter(s =>
+        s &&
+        s.enabled !== false &&
+        s.name &&
+        !builtIn[String(s.name).trim()] &&
+        (
+          String(s.title || "").trim() ||
+          String(s.lead || "").trim() ||
+          String(s.content || "").trim()
+        )
+      )
+      .forEach((s, index) => {
+        const id = "rubrique-personnalisee-" + index;
+
+        customHtml += `
+          <section
+            id="${id}"
+            class="section custom-admin-section"
+            data-admin-section="${esc(s.name)}"
+          >
+            <div class="section-heading">
+              <span class="eyebrow">RUBRIQUE</span>
+              <h2>${esc(s.title || s.name)}</h2>
+              ${
+                s.lead
+                  ? `<p>${esc(s.lead)}</p>`
+                  : ""
+              }
+            </div>
+
+            ${
+              s.content
+                ? `
+                  <div
+                    style="
+                      max-width:900px;
+                      margin:0 auto;
+                      white-space:pre-line;
+                      line-height:1.7;
+                    "
+                  >${esc(s.content)}</div>
+                `
+                : ""
+            }
+          </section>
+        `;
+
+        s.__generatedId = id;
+      });
+  }
+
+  /*
+    3. Insérer les nouvelles rubriques
+       avant les autres contenus supplémentaires.
+  */
+  container.innerHTML = customHtml;
+
+  /*
+    4. Informations importantes
+  */
+  if (d.importantInfo) {
+    container.insertAdjacentHTML("beforeend", `
+      <section class="section">
+        <div class="section-heading">
+          <span class="eyebrow">À SAVOIR</span>
+          <h2>Informations importantes</h2>
+        </div>
+
+        <div
+          style="
+            max-width:900px;
+            margin:0 auto;
+            white-space:pre-line;
+            line-height:1.7;
+          "
+        >${esc(d.importantInfo)}</div>
+      </section>
+    `);
+  }
+
+  /*
+    5. Le local
+  */
+  if (d.localAddress || d.localText) {
+    container.insertAdjacentHTML("beforeend", `
+      <section class="section">
+        <div class="section-heading">
+          <span class="eyebrow">LE LOCAL</span>
+          <h2>${esc(d.localAddress || "Notre local")}</h2>
+        </div>
+
+        <div
+          style="
+            max-width:900px;
+            margin:0 auto;
+            white-space:pre-line;
+            line-height:1.7;
+          "
+        >${esc(d.localText || "")}</div>
+      </section>
+    `);
+  }
+
+  /*
+    6. Programmes
+  */
+  if (Array.isArray(d.programs) && d.programs.length) {
+    container.insertAdjacentHTML("beforeend", `
+      <section class="section">
+        <div class="section-heading">
+          <span class="eyebrow">PROGRAMMES</span>
+          <h2>Programmes</h2>
+        </div>
+
+        <div class="cards">
+          ${d.programs.map(p => `
+            <article class="card">
+              <h3>${esc(p.week || "")}</h3>
+              <p>${esc(p.text || "")}</p>
+            </article>
+          `).join("")}
+        </div>
+      </section>
+    `);
+  }
+
+  /*
+    7. Photos
+  */
+  if (Array.isArray(d.photos) && d.photos.length) {
+    container.insertAdjacentHTML("beforeend", `
+      <section class="section">
+        <div class="section-heading">
+          <span class="eyebrow">PHOTOS</span>
+          <h2>Photos</h2>
+        </div>
+
+        <div class="cards">
+          ${d.photos.map(p => `
+            <article class="card">
+              ${
+                p.src
+                  ? `<img src="${esc(p.src)}" alt="${esc(p.caption || "")}" style="width:100%;border-radius:12px;">`
+                  : ""
+              }
+              ${
+                p.caption
+                  ? `<p>${esc(p.caption)}</p>`
+                  : ""
+              }
+            </article>
+          `).join("")}
+        </div>
+      </section>
+    `);
+  }
+
+  /*
+    8. Équipe
+  */
+  if (
+    (Array.isArray(d.founders) && d.founders.length) ||
+    (Array.isArray(d.monitors) && d.monitors.length)
+  ) {
+    container.insertAdjacentHTML("beforeend", `
+      <section class="section">
+        <div class="section-heading">
+          <span class="eyebrow">ÉQUIPE</span>
+          <h2>Notre équipe</h2>
+          <p>Les personnes qui encadrent le camp</p>
+        </div>
+
+        <div class="cards">
+          ${
+            Array.isArray(d.founders)
+              ? d.founders.map(p => `
+                <article class="card">
+                  <h3>${esc(p.name || "")}</h3>
+                  <p>${esc(p.role || "")}</p>
+                  <p>${esc(p.text || "")}</p>
+                </article>
+              `).join("")
+              : ""
+          }
+
+          ${
+            Array.isArray(d.monitors)
+              ? d.monitors.map(p => `
+                <article class="card">
+                  <h3>${esc(p.name || "")}</h3>
+                  <p>${esc(p.role || "")}</p>
+                  <p>${esc(p.text || "")}</p>
+                </article>
+              `).join("")
+              : ""
+          }
+        </div>
+      </section>
+    `);
+  }
+
+  /*
+    9. Documents
+  */
+  if (Array.isArray(d.docs) && d.docs.length) {
+    container.insertAdjacentHTML("beforeend", `
+      <section class="section">
+        <div class="section-heading">
+          <span class="eyebrow">DOCUMENTS</span>
+          <h2>Documents</h2>
+        </div>
+
+        <div class="cards">
+          ${d.docs.map(p => `
+            <article class="card">
+              <h3>${esc(p[0] || "")}</h3>
+              ${
+                p[1]
+                  ? `<a href="${esc(p[1])}" target="_blank" rel="noopener">Voir le document</a>`
+                  : ""
+              }
+            </article>
+          `).join("")}
+        </div>
+      </section>
+    `);
+  }
+}
 
   if (d.localAddress || d.localText || (d.localPhotos && d.localPhotos.length)) {
     html += `
