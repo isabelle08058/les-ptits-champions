@@ -175,14 +175,54 @@ function updateHeroPreview(){
   let b=$("heroLogoPreview");b.style.backgroundImage=d.logo?`url("${d.logo}")`:"none";b.style.backgroundColor=d.backgroundColor||"#eee";
   b.innerHTML=`<div style="background:rgba(0,0,0,${Number(d.heroOverlay)||0});color:white;border-radius:12px;padding:18px"><strong style="font-size:1.5rem">${esc((d.heroTitle||"").replace("|"," "))}</strong><div>${esc(d.heroLead||"")}</div></div>`;
 }
-function renderAll(){renderSections();renderPhotos();renderCards();renderActivities();renderWeeks();renderPrices();renderPrograms();renderLocalPhotos();renderSchedule();renderPeople();renderDocs();renderFaq()}
 function renderSections(){
- $("sections").innerHTML=d.sections.map((s,i)=>`<div class="section">
- <div class="sectionTop"><strong>${esc(s.name)}</strong>
- <button class="action" onclick="moveSection(${i},-1)">↑</button><button class="action" onclick="moveSection(${i},1)">↓</button>
- <button class="action" onclick="editSection(${i})">✏️</button><button class="action del" onclick="removeSection(${i})">🗑️</button></div>
- <label>Contenu<textarea oninput="d.sections[${i}].content=this.value">${esc(s.content||"")}</textarea></label>
- </div>`).join("");
+  $("sections").innerHTML=d.sections.map((s,i)=>`
+    <div class="section">
+
+      <div class="sectionTop">
+        <strong>${esc(s.name)}</strong>
+
+        <button class="action" onclick="moveSection(${i},-1)">↑</button>
+        <button class="action" onclick="moveSection(${i},1)">↓</button>
+        <button class="action" onclick="editSection(${i})">✏️</button>
+        <button class="action del" onclick="removeSection(${i})">🗑️</button>
+      </div>
+
+      <label>
+        Nom dans la barre de navigation
+        <input
+          value="${esc(s.name||"")}"
+          oninput="d.sections[${i}].name=this.value"
+        >
+      </label>
+
+      <label>
+        Titre de la rubrique
+        <input
+          value="${esc(s.title||"")}"
+          placeholder="Ex. Notre équipe"
+          oninput="d.sections[${i}].title=this.value"
+        >
+      </label>
+
+      <label>
+        Phrase d'accroche / sous-titre
+        <input
+          value="${esc(s.lead||"")}"
+          placeholder="Ex. Les moniteurs et fondatrices des P'tits champions"
+          oninput="d.sections[${i}].lead=this.value"
+        >
+      </label>
+
+      <label>
+        Contenu
+        <textarea
+          oninput="d.sections[${i}].content=this.value"
+        >${esc(s.content||"")}</textarea>
+      </label>
+
+    </div>
+  `).join("");
 }
 function addSection(){d.sections.push({name:"Nouvelle rubrique",content:"",enabled:true});renderSections()}
 function editSection(i){let n=prompt("Nom de la rubrique :",d.sections[i].name);if(n!==null&&n.trim()){d.sections[i].name=n.trim();renderSections()}}
